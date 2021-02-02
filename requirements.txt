@@ -1,0 +1,6 @@
+pandas
+numpy
+seaborn
+plotly
+cadCAD
+sklearn
