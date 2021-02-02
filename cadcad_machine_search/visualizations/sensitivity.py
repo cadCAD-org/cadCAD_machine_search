@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import seaborn as sns
 from sklearn.tree import plot_tree
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
@@ -43,8 +44,8 @@ def f(X: pd.DataFrame,
 
 
 def param_sensitivity_plot(df: pd.DataFrame, 
-                         control_params: set,
-                         target: str):
+                           control_params: set,
+                           target: str):
     """
     Plot the sensivity of the 'target' column vs
     a list of control parameters, which are data frame columns.
@@ -59,3 +60,29 @@ def param_sensitivity_plot(df: pd.DataFrame,
                             gridspec_kw={'height_ratios': [3, 1]})
     f(X, y, 'target', axes[0], axes[1])
     return None
+
+
+def kpi_sensitivity_plot(df: pd.DataFrame,
+                         run_utility: callable,
+                         control_params: set):
+    """
+    Plots the sensitivity of a result dataset towards a KPI.
+
+    Arguments
+    df: data frame containing all the simulation results, incl params.
+    run_utility: function that aggregates a (subset_id, run) data into a number
+    control_params: columns on data frame for doing sensitivity analysis
+    """
+
+    labels = df.groupby(['subset', 'run']).apply(run_utility)
+    labels.name = 'target'
+    labels_df = labels
+
+    cols = ['subset', 'run', *tuple(control_params)]
+    subset_map = df[cols].drop_duplicates().set_index(['subset', 'run'])
+    feature_df = subset_map
+
+    full_df = feature_df.join(labels_df)
+    param_sensitivity_plot(full_df, 
+                           control_params,
+                           'target')
