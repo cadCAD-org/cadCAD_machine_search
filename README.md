@@ -27,7 +27,7 @@ pip install git+https://github.com/danlessa/cadCAD_machine_search@master
 #### SCartesian product for parameter sweeping
 ### Visualizations
 
-#### Sensitivity of control parameters to a given KPI
+#### Sensitivity of a KPI towards a set of control parameters
 
 ## Examples
 
