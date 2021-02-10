@@ -2,10 +2,8 @@
 cadCAD tools for preparing & analyzing experiments where
  large-scale machine search for selecting parameters are involved.
 
- *Sensitivity analysis for the Prey vs Predator populations in regards to 
- parameters*
-
-![Sensitivity analysis on the Prey & Predator model](https://i.imgur.com/CkQsjU2.png)
+**How the choice of parameters that optimizes a given KPI affects the combined KPIs**
+![Goal Ternary](https://i.imgur.com/15EZJrO.png)
 
 ## Installation
 
@@ -49,6 +47,20 @@ params = {
 #### Sensitivity of a KPI towards a set of control parameters
 
 ```python
+from cadcad_machine_search.visualizations import kpi_sensitivity_plot
+
+# KPI: prey population is 5x above the predator populaton at least 90% of the time
+control_params = set(sweep_params.keys())
+WEIGHT = 5.0
+kpi = lambda df: (df.prey_population > WEIGHT * df.predator_population).mean() > 0.9
+kpi_sensitivity_plot(df, kpi, control_params)
+```
+
+![Sensitivity analysis on the Prey & Predator model](https://i.imgur.com/QG617Q2.png)
+
+#### Impact of parameter selection in terms of specific vs general goals
+
+```python
 from cadcad_machine_search.visualizations import plot_goal_ternary
 
 PREY_ABUNDANCE_THRESHOLD = (df.prey_population / df.predator_population).mean()
@@ -72,12 +84,8 @@ goals['combined'] = lambda goals: goals[0] + goals[1] + goals[2]
 plot_goal_ternary(df, kpis, goals, control_params)
 ```
 
+![Goal Ternary](https://i.imgur.com/15EZJrO.png)
 
-#### Impact of parameter selection in terms of specific vs general goals
-
-```python
-
-``
 
 ## Examples
 
