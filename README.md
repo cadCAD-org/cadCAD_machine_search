@@ -49,14 +49,35 @@ params = {
 #### Sensitivity of a KPI towards a set of control parameters
 
 ```python
-from cadcad_machine_search.visualizations import kpi_sensitivity_plot
+from cadcad_machine_search.visualizations import plot_goal_ternary
 
-# KPI: prey population is 3x above the predator populaton at least 90% of the time
-control_params = set(sweep_params.keys())
-WEIGHT = 3.0
-kpi = lambda df: (df.prey_population > WEIGHT * df.predator_population).mean() > 0.9
-kpi_sensitivity_plot(df, kpi, control_params)
+PREY_ABUNDANCE_THRESHOLD = (df.prey_population / df.predator_population).mean()
+PREDATOR_ABUNDANCE_THRESHOLD = (df.predator_population / df.prey_population).mean()
+PREY_VARIANCE_THRESHOLD = df.prey_population.std()
+PREDATOR_VARIANCE_THRESHOLD = df.predator_population.std()
+
+kpis = {'prey_abundance': lambda df: df.prey_population.mean(),
+        'predator_abundance': lambda df: df.predator_population.mean(),
+        'prey_variance': lambda df: 1 / df.prey_population.std(),
+        'predator_variance': lambda df: 1 / df.predator_population.std(),
+        }
+
+# Define goals as sides of the triangle
+goals = {}
+goals['Prey Desirability'] = lambda metrics: (metrics['prey_abundance'] + metrics['prey_variance']) / 2
+goals['Predator Desirability'] = lambda metrics: (metrics['predator_abundance'] + metrics['predator_variance']) / 2
+goals['System Stability'] = lambda metrics: (metrics['prey_variance'] + metrics['predator_variance']) / 2
+goals['combined'] = lambda goals: goals[0] + goals[1] + goals[2]
+
+plot_goal_ternary(df, kpis, goals, control_params)
 ```
+
+
+#### Impact of parameter selection in terms of specific vs general goals
+
+```python
+
+``
 
 ## Examples
 
