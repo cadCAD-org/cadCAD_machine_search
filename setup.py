@@ -1,11 +1,11 @@
 from setuptools import setup, find_packages
 
 long_description = """
-Automated cadCAD system models diagram through GraphViz
+cadCAD tools for preparing & analyzing experiments where large-scale machine search for selecting parameters are involved.
 """
 
 setup(name='cadCAD_machine_search',
-      version='0.0.1.0',
+      version='0.0.1.1',
       description="Tools for Large-Scale Machine Search for Parameter Optimization on cadCAD",
       long_description=long_description,
       url='https://github.com/danlessa/cadCAD_machine_search',
