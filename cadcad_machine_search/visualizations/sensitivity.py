@@ -36,14 +36,18 @@ def f(X: pd.DataFrame,
               ax=ax_dt)
     ax_dt.set_title(
         f'Decision tree for {target}, score: {model.score(X, y) :.0%}. N: {len(X) :.2e}')
-    sns.barplot(df.features, df.importance, ax=ax_rf, label='small')
+    sns.barplot(data=df,
+                x=df.features,
+                y=df.importance,
+                ax=ax_rf,
+                label='small')
     plt.setp(ax_rf.xaxis.get_majorticklabels(), rotation=45)
     ax_rf.set_title(f'Feature importance for the {target}')
-    
+
     return df.assign(target=target)
 
 
-def param_sensitivity_plot(df: pd.DataFrame, 
+def param_sensitivity_plot(df: pd.DataFrame,
                            control_params: set,
                            target: str):
     """
@@ -55,9 +59,9 @@ def param_sensitivity_plot(df: pd.DataFrame,
     y = (df[target] > 0)
     # Visualize
     fig, axes = plt.subplots(nrows=2,
-                            figsize=(36, 12),
-                            dpi=100,
-                            gridspec_kw={'height_ratios': [3, 1]})
+                             figsize=(36, 12),
+                             dpi=100,
+                             gridspec_kw={'height_ratios': [3, 1]})
     f(X, y, 'target', axes[0], axes[1])
     return None
 
@@ -83,6 +87,6 @@ def kpi_sensitivity_plot(df: pd.DataFrame,
     feature_df = subset_map
 
     full_df = feature_df.join(labels_df)
-    param_sensitivity_plot(full_df, 
+    param_sensitivity_plot(full_df,
                            control_params,
                            'target')
