@@ -10,7 +10,8 @@ def f(X: pd.DataFrame,
       y: pd.Series,
       target: str,
       ax_dt: object,
-      ax_rf: object):
+      ax_rf: object,
+      label: str = 'target'):
     """
     Fit DT and RF classifiers for summarizing the sensivity.
     """
@@ -35,21 +36,22 @@ def f(X: pd.DataFrame,
               filled=True,
               ax=ax_dt)
     ax_dt.set_title(
-        f'Decision tree for {target}, score: {model.score(X, y) :.0%}. N: {len(X) :.2e}')
+        f'Decision tree for {label}, score: {model.score(X, y) :.0%}. N: {len(X) :.2e}')
     sns.barplot(data=df,
                 x=df.features,
                 y=df.importance,
                 ax=ax_rf,
                 label='small')
     plt.setp(ax_rf.xaxis.get_majorticklabels(), rotation=45)
-    ax_rf.set_title(f'Feature importance for the {target}')
+    ax_rf.set_title(f'Feature importance for the {label}')
 
     return df.assign(target=target)
 
 
 def param_sensitivity_plot(df: pd.DataFrame,
                            control_params: set,
-                           target: str):
+                           target: str,
+                           label: str = 'target'):
     """
     Plot the sensivity of the 'target' column vs
     a list of control parameters, which are data frame columns.
@@ -68,7 +70,8 @@ def param_sensitivity_plot(df: pd.DataFrame,
 
 def kpi_sensitivity_plot(df: pd.DataFrame,
                          run_utility: callable,
-                         control_params: set):
+                         control_params: set,
+                         label: str = 'target'):
     """
     Plots the sensitivity of a result dataset towards a KPI.
 
@@ -89,4 +92,5 @@ def kpi_sensitivity_plot(df: pd.DataFrame,
     full_df = feature_df.join(labels_df)
     param_sensitivity_plot(full_df,
                            control_params,
-                           'target')
+                           'target',
+                           label)
