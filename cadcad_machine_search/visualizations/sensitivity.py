@@ -64,7 +64,7 @@ def param_sensitivity_plot(df: pd.DataFrame,
                              figsize=(36, 12),
                              dpi=100,
                              gridspec_kw={'height_ratios': [3, 1]})
-    f(X, y, 'target', axes[0], axes[1])
+    f(X, y, 'target', axes[0], axes[1], label)
     return None
 
 
