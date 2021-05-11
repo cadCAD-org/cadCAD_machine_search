@@ -5,7 +5,7 @@ cadCAD tools for preparing & analyzing experiments where large-scale machine sea
 """
 
 setup(name='cadCAD_machine_search',
-      version='0.0.1.3',
+      version='0.0.1.4',
       description="Tools for Large-Scale Machine Search for Parameter Optimization on cadCAD",
       long_description=long_description,
       url='https://github.com/cadCAD-org/cadCAD_machine_search',
