@@ -3,5 +3,5 @@ numpy
 seaborn
 plotly
 cadCAD
-sklearn
+scikit-learn
 scikit-image
