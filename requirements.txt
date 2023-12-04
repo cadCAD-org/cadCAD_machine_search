@@ -2,6 +2,6 @@ pandas
 numpy
 seaborn
 plotly
-cadCAD
+cadCAD @ git+https://github.com/cadCAD-org/cadCAD@740320910bb5db428404875a87895e38f0a05614
 scikit-learn
 scikit-image
